@@ -1,0 +1,52 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'
+             xmlns:menu="urn:import:org.insset.client.menu">
+
+    <g:HTMLPanel>
+        <menu:Menu ui:field="menu"/>
+        <h1>Calcul de Pourcentage</h1>
+
+        <div class="bs-section">
+            <!-- First section: Calculate final price and discount -->
+            <g:FlowPanel>
+                <g:Label>Prix de départ :</g:Label>
+                <g:TextBox ui:field="prixDepart" text="Entrez le prix de départ"/>
+
+                <g:Label>Pourcentage :</g:Label>
+                <g:TextBox ui:field="pourcentageRemise" text="Entrez le pourcentage"/>
+
+                <g:Label>Prix Final :</g:Label>
+                <g:TextBox ui:field="prixFinal" enabled="false"/>
+
+                <g:Label>Remise effectuée :</g:Label>
+                <g:TextBox ui:field="remiseEffectuee" enabled="false"/>
+
+                <g:Label ui:field="errorLabel1"></g:Label>
+
+                <g:FlowPanel ui:field="formActions1">
+                    <g:SubmitButton ui:field="calculerPrixFinal" text="Calculer"/>
+                    <g:ResetButton ui:field="clear1" text="Réinitialiser"/>
+                </g:FlowPanel>
+            </g:FlowPanel>
+
+            <!-- Second section: Calculate original price -->
+            <g:FlowPanel>
+                <g:Label>Prix Final :</g:Label>
+                <g:TextBox ui:field="prixFinalInput" text="Entrez le prix final"/>
+
+                <g:Label>Pourcentage :</g:Label>
+                <g:TextBox ui:field="pourcentageRemiseInput" text="Entrez le pourcentage"/>
+
+                <g:Label>Prix de départ calculé :</g:Label>
+                <g:TextBox ui:field="prixDepartCalculé" enabled="false"/>
+
+                <g:Label ui:field="errorLabel2"></g:Label>
+
+                <g:FlowPanel ui:field="formActions2">
+                    <g:SubmitButton ui:field="calculerPrixDepart" text="Calculer le prix de départ"/>
+                    <g:ResetButton ui:field="clear2" text="Réinitialiser"/>
+                </g:FlowPanel>
+            </g:FlowPanel>
+        </div>
+    </g:HTMLPanel>
+</ui:UiBinder>
