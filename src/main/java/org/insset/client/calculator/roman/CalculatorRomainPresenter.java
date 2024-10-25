@@ -174,22 +174,17 @@ public class CalculatorRomainPresenter extends Composite {
      * call server
      */
     private void convertDate() {
-        //Verif
-        if (!FieldVerifier.isValidDate(valD.getText())) {
-            errorLabelAToR.addStyleName("serverResponseLabelError");
-            errorLabelAToR.setText("Format incorect");
-            return;
-        }
-        //call server
-        service.convertDateYears(valD.getText(), new AsyncCallback<String>() {
+        final String dateInput = valD.getText(); // Get the user's input date
+
+        service.convertDateYears(dateInput, new AsyncCallback<String>() {
+            @Override
             public void onFailure(Throwable caught) {
-                // Show the RPC error message to the user
-//                Window.alert(SERVER_ERROR);
+                errorLabelD.setText("Erreur lors de la conversion de la date."); // Show error message
             }
 
+            @Override
             public void onSuccess(String result) {
-                errorLabelD.setText(" ");
-                new DialogBoxInssetPresenter("Convertion Date", valD.getText(), result);
+                new DialogBoxInssetPresenter("Conversion de date", dateInput, result); // Display the result
             }
         });
     }

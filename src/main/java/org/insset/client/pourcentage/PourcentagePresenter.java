@@ -20,6 +20,14 @@ import org.insset.shared.CalculPourcentageResult;
 public class PourcentagePresenter extends Composite {
 
     @UiField
+    public TextBox premierNombre, deuxiemeNombre, resultatDivision;
+    @UiField
+    public Label errorLabel3;
+    @UiField
+    public SubmitButton calculerDivision;
+    @UiField
+    public ResetButton clear3;
+    @UiField
     public Menu menu;
     @UiField
     public ResetButton clear1, clear2;
@@ -45,41 +53,57 @@ public class PourcentagePresenter extends Composite {
     }
 
     private void initHandler() {
-    clear1.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-            prixDepart.setText("");
-            pourcentageRemise.setText("");
-            prixFinal.setText("");
-            remiseEffectuee.setText("");
-            errorLabel1.setText("");
-        }
-    });
+        clear1.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                prixDepart.setText("");
+                pourcentageRemise.setText("");
+                prixFinal.setText("");
+                remiseEffectuee.setText("");
+                errorLabel1.setText("");
+            }
+        });
 
-    clear2.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-            prixFinalInput.setText("");
-            pourcentageRemiseInput.setText("");
-            prixDepartCalculé.setText("");
-            errorLabel2.setText("");
-        }
-    });
+        clear2.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                prixFinalInput.setText("");
+                pourcentageRemiseInput.setText("");
+                prixDepartCalculé.setText("");
+                errorLabel2.setText("");
+            }
+        });
 
-    calculerPrixFinal.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-            calculateFinalPrice();
-        }
-    });
+        clear3.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                premierNombre.setText("");
+                deuxiemeNombre.setText("");
+                resultatDivision.setText("");
+                errorLabel3.setText("");
+            }
+        });
 
-    calculerPrixDepart.addClickHandler(new ClickHandler() {
-        @Override
-        public void onClick(ClickEvent event) {
-            calculateOriginalPrice();
-        }
-    });
-}
+        calculerPrixFinal.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                calculateFinalPrice();
+            }
+        });
+
+        calculerPrixDepart.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                calculateOriginalPrice();
+            }
+        });
+        calculerDivision.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                performDivision();
+            }
+        });
+    }
 
     private void calculateFinalPrice() {
         try {
@@ -101,6 +125,32 @@ public class PourcentagePresenter extends Composite {
 
         } catch (NumberFormatException e) {
             errorLabel1.setText("Veuillez entrer des valeurs numériques valides.");
+        }
+    }
+
+    private void performDivision() {
+        try {
+            int number1 = Integer.parseInt(premierNombre.getText());
+            int number2 = Integer.parseInt(deuxiemeNombre.getText());
+
+            service.effectuerDivision(number1, number2, new AsyncCallback<Double>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    if (caught instanceof IllegalArgumentException) {
+                        errorLabel3.setText(caught.getMessage());
+                    } else {
+                        errorLabel3.setText("Erreur lors du calcul.");
+                    }
+                }
+
+                @Override
+                public void onSuccess(Double result) {
+                    resultatDivision.setText(String.valueOf(result));
+                }
+            });
+
+        } catch (NumberFormatException e) {
+            errorLabel3.setText("Veuillez entrer des nombres entiers valides.");
         }
     }
 
