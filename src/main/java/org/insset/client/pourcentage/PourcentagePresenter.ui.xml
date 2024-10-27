@@ -47,6 +47,23 @@
                     <g:ResetButton ui:field="clear2" text="Réinitialiser"/>
                 </g:FlowPanel>
             </g:FlowPanel>
+            <g:FlowPanel>
+                <g:Label>Premier Nombre :</g:Label>
+                <g:TextBox ui:field="premierNombre" text="Entrez le premier nombre"/>
+
+                <g:Label>Deuxième Nombre :</g:Label>
+                <g:TextBox ui:field="deuxiemeNombre" text="Entrez le deuxième nombre"/>
+
+                <g:Label>Résultat de la division :</g:Label>
+                <g:TextBox ui:field="resultatDivision" enabled="false"/>
+
+                <g:Label ui:field="errorLabel3"></g:Label>
+
+                <g:FlowPanel ui:field="formActions3">
+                    <g:SubmitButton ui:field="calculerDivision" text="Diviser"/>
+                    <g:ResetButton ui:field="clear3" text="Réinitialiser"/>
+                </g:FlowPanel>
+            </g:FlowPanel>
         </div>
     </g:HTMLPanel>
 </ui:UiBinder>
