@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ResetButton;
 import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.TextBox;
+
+import org.insset.client.calculator.roman.CalculatorRomainPresenter.MainUiBinder;
 import org.insset.client.message.dialogbox.DialogBoxInssetPresenter;
 import org.insset.client.service.RomanConverterService;
 import org.insset.client.service.RomanConverterServiceAsync;
@@ -125,18 +127,19 @@ public class CalculatorRomainPresenter extends Composite {
     private void convertRomanToArabe() {
         if (!FieldVerifier.isValidRoman(valR.getText())) {
             errorLabelRToA.addStyleName("serverResponseLabelError");
-            errorLabelRToA.setText("Format incorect");
+            errorLabelRToA.setText("La valeur romaine doit être entre I et MMM (1 à 3000)");  // Error message in French
             return;
         }
         service.convertRomanToArabe(valR.getText(), new AsyncCallback<Integer>() {
             public void onFailure(Throwable caught) {
-                // Show the RPC error message to the user
-//                Window.alert(SERVER_ERROR);
+                String errorMessage = caught.getMessage() != null ? caught.getMessage() : "An unknown error occurred";
+                errorLabelRToA.addStyleName("serverResponseLabelError");
+                errorLabelRToA.setText(errorMessage);
             }
 
             public void onSuccess(Integer result) {
                 errorLabelRToA.setText(" ");
-                new DialogBoxInssetPresenter("Convertion Roman to arabe", valR.getText(), String.valueOf(result));
+                new DialogBoxInssetPresenter("Conversion Roman to Arabe", valR.getText(), String.valueOf(result));
             }
         });
     }
@@ -150,22 +153,26 @@ public class CalculatorRomainPresenter extends Composite {
             value = Integer.parseInt(valA.getText());
         } catch (NumberFormatException e) {
             errorLabelAToR.addStyleName("serverResponseLabelError");
-            errorLabelAToR.setText("Format incorect");
+            errorLabelAToR.setText("Format incorrect");
             return;
         }
-        if (!FieldVerifier.isValidDecimal(value)) {
+
+        if (value <= 0 || value > 3000) {  // Check if the value is within range
             errorLabelAToR.addStyleName("serverResponseLabelError");
-            errorLabelAToR.setText("Format incorect");
+            errorLabelAToR.setText("La valeur doit être entre 1 et 3000");  // Error message in French
             return;
         }
-        service.convertArabeToRoman(Integer.parseInt(valA.getText()), new AsyncCallback<String>() {
+
+        service.convertArabeToRoman(value, new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
-                // Show the RPC error message to the user
+                String errorMessage = caught.getMessage() != null ? caught.getMessage() : "An unknown error occurred";
+                errorLabelAToR.addStyleName("serverResponseLabelError");
+                errorLabelAToR.setText(errorMessage);
             }
 
             public void onSuccess(String result) {
                 errorLabelAToR.setText(" ");
-                new DialogBoxInssetPresenter("Convertion Arabe to Roman", valA.getText(), result);
+                new DialogBoxInssetPresenter("Conversion Arabe to Roman", valA.getText(), result);
             }
         });
     }
@@ -174,22 +181,22 @@ public class CalculatorRomainPresenter extends Composite {
      * call server
      */
     private void convertDate() {
-        //Verif
         if (!FieldVerifier.isValidDate(valD.getText())) {
-            errorLabelAToR.addStyleName("serverResponseLabelError");
-            errorLabelAToR.setText("Format incorect");
+            errorLabelD.addStyleName("serverResponseLabelError");
+            errorLabelD.setText("La date doit être au format JJ/MM/AAAA avec une année entre 1 et 3000");  // Error message in French
             return;
         }
-        //call server
+
         service.convertDateYears(valD.getText(), new AsyncCallback<String>() {
             public void onFailure(Throwable caught) {
-                // Show the RPC error message to the user
-//                Window.alert(SERVER_ERROR);
+                String errorMessage = caught.getMessage() != null ? caught.getMessage() : "An unknown error occurred";
+                errorLabelD.addStyleName("serverResponseLabelError");
+                errorLabelD.setText(errorMessage);
             }
 
             public void onSuccess(String result) {
                 errorLabelD.setText(" ");
-                new DialogBoxInssetPresenter("Convertion Date", valD.getText(), result);
+                new DialogBoxInssetPresenter("Conversion Date", valD.getText(), result);
             }
         });
     }
