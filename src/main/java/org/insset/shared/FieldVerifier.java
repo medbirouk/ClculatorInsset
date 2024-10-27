@@ -52,17 +52,38 @@ public class FieldVerifier {
      * @return true if valid, false if invalid
      */
     public static boolean isValidDecimal(Integer nbr) {
-        //Implement your code
-        return true;
+        return nbr != null && nbr > 0 && nbr <= 3000;
     }
 
     public static boolean isValidRoman(String nbr) {
-        //Implement your code
-        return true;
+        if (nbr == null || nbr.isEmpty()) {
+            return false;
+        }
+
+        // Regular expression to validate Roman numerals up to 3000 (MMM for 3000)
+        String romanRegex = "^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$";
+        return nbr.matches(romanRegex);
     }
 
     public static boolean isValidDate(String date) {
-        //Implement your code
-        return true;
+        if (date == null || date.isEmpty()) {
+            return false;
+        }
+
+        String[] parts = date.split("/");
+        if (parts.length != 3) {
+            return false;
+        }
+
+        try {
+            int day = Integer.parseInt(parts[0]);
+            int month = Integer.parseInt(parts[1]);
+            int year = Integer.parseInt(parts[2]);
+
+            return day > 0 && day <= 31 && month > 0 && month <= 12 && year > 0 && year <= 3000;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
+
 }
