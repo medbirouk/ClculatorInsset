@@ -1,37 +1,37 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.insset.server;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import org.insset.client.service.RomanConverterService;
+import org.insset.client.service.PourcentageService;
+import org.insset.shared.CalculPourcentageResult;
 
-/**
- *
- * @author user
- */
-@SuppressWarnings("serial")
-public class RomanConverterServiceImpl extends RemoteServiceServlet implements
-        RomanConverterService {
+public class PourcentageServiceImpl extends RemoteServiceServlet implements PourcentageService {
 
     @Override
-    public String convertDateYears(String nbr) throws IllegalArgumentException {
-        //Implement your code
-        return "XV/III/MX";
+    public CalculPourcentageResult calculerPourcentage(double prixDepart, double pourcentage) throws IllegalArgumentException {
+        if (prixDepart < 0 || pourcentage < 0) {
+            throw new IllegalArgumentException("Les valeurs doivent être positives.");
+        }
+
+        double prixFinal = prixDepart * (1 - pourcentage / 100);
+        double remiseEffectuee = prixDepart - prixFinal;
+
+        return new CalculPourcentageResult(prixFinal, remiseEffectuee);
     }
 
     @Override
-    public Integer convertRomanToArabe(String nbr) throws IllegalArgumentException {
-        //Implement your code
-        return 3;
+    public Double calculerPrixDepart(double prixFinal, double pourcentage) throws IllegalArgumentException {
+        if (prixFinal < 0 || pourcentage < 0) {
+            throw new IllegalArgumentException("Les valeurs doivent être positives.");
+        }
+
+        return prixFinal / (1 - pourcentage / 100);
     }
 
     @Override
-    public String convertArabeToRoman(Integer nbr) throws IllegalArgumentException {
-        //Implement your code
-        return new String("XVXX");
+    public Double effectuerDivision(int premierNombre, int deuxiemeNombre) throws IllegalArgumentException {
+        if (deuxiemeNombre == 0) {
+            throw new IllegalArgumentException("Division par zéro n'est pas autorisée.");
+        }
+        return (double) premierNombre / deuxiemeNombre;
     }
-
 }
