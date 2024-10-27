@@ -10,4 +10,5 @@ public interface PourcentageService extends RemoteService {
     CalculPourcentageResult calculerPourcentage(double prixDepart, double pourcentage) throws IllegalArgumentException;
 
     Double calculerPrixDepart(double prixFinal, double pourcentage) throws IllegalArgumentException;
+    Double effectuerDivision(int premierNombre, int deuxiemeNombre) throws IllegalArgumentException;
 }
