@@ -23,9 +23,10 @@ public class PourcentageServiceImpl extends RemoteServiceServlet implements Pour
         if (prixFinal < 0 || pourcentage < 0) {
             throw new IllegalArgumentException("Les valeurs doivent être positives.");
         }
-        
+
         return prixFinal / (1 - pourcentage / 100);
     }
+
     @Override
     public Double effectuerDivision(int premierNombre, int deuxiemeNombre) throws IllegalArgumentException {
         if (deuxiemeNombre == 0) {
@@ -34,3 +35,4 @@ public class PourcentageServiceImpl extends RemoteServiceServlet implements Pour
         return (double) premierNombre / deuxiemeNombre;
     }
 }
+
